@@ -75,7 +75,7 @@ app.post('/api/generate-ics', (req, res) => {
         }
         
         const events = [];
-        const startMoment = moment(startDate);
+        const startMoment = moment.tz(startDate, 'America/Halifax');
         
         scheduleItems.forEach(item => {
             const { routeId, stopName, time, days } = item;
@@ -100,7 +100,8 @@ app.post('/api/generate-ics', (req, res) => {
                     description: `Bus arrival at ${stopName}`,
                     location: stopName,
                     status: 'CONFIRMED',
-                    busyStatus: 'FREE'
+                    busyStatus: 'FREE',
+                    timezone: 'America/Halifax'
                 };
                 
                 events.push(event);
