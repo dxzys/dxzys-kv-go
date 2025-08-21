@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=3.0">
+    <title>KV Go Schedule Generator</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="main-content">
+        <div class="container">
+            <h1>KV Go Schedule Generator</h1>
+
+        <div class="card">
+            <div class="start-week">
+                <label for="startDate">Start of week:</label>
+                <input type="date" id="startDate" required>
+                <button id="addStopBtn" class="add-stop">+ Add Stop</button>
+            </div>
+            
+            <div id="scheduleItems" class="stops">
+                <!-- Stops will be added here -->
+            </div>
+            
+            <div class="actions">
+                <button id="generateBtn" class="generate-btn" disabled>Generate Calendar</button>
+                <button id="clearBtn" class="clear-btn">Clear All</button>
+            </div>
+        </div>
+
+            <div class="card">
+                <div class="section-header">
+                    <h2>Schedule Preview</h2>
+                    <p>See your schedule in a monthly calendar view</p>
+                </div>
+                
+                <div class="calendar-controls">
+                    <button id="prevMonth" class="calendar-nav">
+                        ←
+                    </button>
+                    <h3 id="currentMonth"></h3>
+                    <button id="nextMonth" class="calendar-nav">
+                        →
+                    </button>
+                </div>
+                
+                <div id="calendar" class="calendar">
+                    <!-- Calendar will be generated here -->
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-header">
+                    <h2>Available Routes</h2>
+                    <p>Information about KV Go routes and stops</p>
+                </div>
+                
+                <div class="routes-grid">
+                    <div class="route-card" data-route="Go1">
+                        <div class="route-header">
+                            <h3>Go1 Route</h3>
+                            <span class="route-badge">26 Stops</span>
+                        </div>
+                        <p class="route-description">Millennium Drive, Gondola Point, and Hampton Road areas</p>
+                        <div class="route-schedule">
+                            <div class="schedule-item">
+                                <span class="schedule-label">Weekdays:</span>
+                                <span class="schedule-value">5 runs per day</span>
+                            </div>
+                            <div class="schedule-item">
+                                <span class="schedule-label">Weekends:</span>
+                                <span class="schedule-value">3 runs per day</span>
+                            </div>
+                        </div>
+                        <button class="view-stops-btn" data-route="Go1">
+                            View Stops
+                        </button>
+                    </div>
+                    
+                    <div class="route-card" data-route="Go2">
+                        <div class="route-header">
+                            <h3>Go2 Route</h3>
+                            <span class="route-badge">16 Stops</span>
+                        </div>
+                        <p class="route-description">Wells Recreation Centre, Kennebecasis Park, and East Riverside areas</p>
+                        <div class="route-schedule">
+                            <div class="schedule-item">
+                                <span class="schedule-label">Weekdays:</span>
+                                <span class="schedule-value">5 runs per day</span>
+                            </div>
+                            <div class="schedule-item">
+                                <span class="schedule-label">Weekends:</span>
+                                <span class="schedule-value">2 runs per day</span>
+                            </div>
+                        </div>
+                        <button class="view-stops-btn" data-route="Go2">
+                            View Stops
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+    <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About This Tool</h4>
+                    <p>A custom schedule generator for KV Go bus service. Build personalized weekly schedules by selecting specific stops, times, and days.</p>
+                    <p class="footer-disclaimer">Contact: <a href="mailto:csteeves.contact@gmail.com">csteeves.contact@gmail.com</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Official Information</h4>
+                    <p>For official updates and announcements, visit:</p>
+                    <a href="https://www.quispamsis.ca/home-streets-and-utilities/kv-go" target="_blank" class="footer-link">
+                        Official KV Go Website
+                    </a>
+                    <p class="footer-disclaimer">Data sourced from official KV Go route schedules</p>
+                </div>
+                <div class="footer-section">
+                    <h4>How to Use</h4>
+                    <ul class="footer-list">
+                        <li>Select week start date (any day)</li>
+                        <li>Add stops and choose routes/times</li>
+                        <li>Preview in calendar view</li>
+                        <li>Generate ICS file for your calendar</li>
+                    </ul>
+                </div>
+            </div>
+    </footer>
+
+    <template id="scheduleItemTemplate">
+        <div class="stop-item">
+            <div class="stop-header">
+                <span class="stop-number"></span>
+                <span>▼</span>
+            </div>
+            
+            <div class="stop-content">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Route</label>
+                        <select class="route-select" required>
+                            <option value="">Choose route</option>
+                            <option value="Go1">Go1 - Millennium Drive & Gondola Point</option>
+                            <option value="Go2">Go2 - Wells Recreation & Kennebecasis Park</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Stop</label>
+                        <select class="stop-select" required>
+                            <option value="">Choose stop</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Time</label>
+                        <select class="time-select" required>
+                            <option value="">Choose time</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Days</label>
+                    <div class="days">
+                        <button type="button" class="day-btn" data-day="Monday">Mon</button>
+                        <button type="button" class="day-btn" data-day="Tuesday">Tue</button>
+                        <button type="button" class="day-btn" data-day="Wednesday">Wed</button>
+                        <button type="button" class="day-btn" data-day="Thursday">Thu</button>
+                        <button type="button" class="day-btn" data-day="Friday">Fri</button>
+                        <button type="button" class="day-btn" data-day="Saturday">Sat</button>
+                        <button type="button" class="day-btn" data-day="Sunday">Sun</button>
+                    </div>
+                </div>
+                
+                <button class="delete-stop" type="button">Delete</button>
+            </div>
+        </div>
+    </template>
+
+    <div id="stopsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Route Stops</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="stopsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>
