@@ -1,0 +1,176 @@
+{
+  "last_updated": "2025-08-20",
+  "project_info": {
+    "name": "KV Go Demonstration Project",
+    "website": "www.KVGo.org",
+    "note": "Routes, stops, times and availability are subject to change"
+  },
+  "routes": {
+    "Go1": {
+      "route_id": "Go1",
+      "description": "Route through Millennium Drive, Gondola Point, and Hampton Road areas",
+      "stops": [
+        {"stop_id": 1, "name": "Superstore", "description": "START"},
+        {"stop_id": 2, "name": "Millennium Drive at Donlyn Drive", "description": "Beside 72 Donlyn"},
+        {"stop_id": 3, "name": "Second Cup Parking Lot", "description": "8 Millennium Drive"},
+        {"stop_id": 4, "name": "Parkside Drive Comex Stop", "description": ""},
+        {"stop_id": 5, "name": "Squire Drive", "description": ""},
+        {"stop_id": 6, "name": "qplex Comex Stop", "description": ""},
+        {"stop_id": 7, "name": "Gondola Point Beach Parking Lot", "description": ""},
+        {"stop_id": 8, "name": "Canada Post Mailboxes", "description": "551 Gondola Point Road"},
+        {"stop_id": 9, "name": "Lift Station #3", "description": "509 Gondola Point Road"},
+        {"stop_id": 10, "name": "Riverview Convenience Store & Gas Bar", "description": ""},
+        {"stop_id": 11, "name": "True Life Church Comex Stop", "description": ""},
+        {"stop_id": 12, "name": "Country/Legend Comex Stop", "description": ""},
+        {"stop_id": 13, "name": "Alderbrook/Yukon Comex Stop", "description": ""},
+        {"stop_id": 14, "name": "St. Mark's Church Parking Lot", "description": ""},
+        {"stop_id": 15, "name": "QR Trail Parking Lot", "description": ""},
+        {"stop_id": 16, "name": "Quispamsis Memorial Arena", "description": ""},
+        {"stop_id": 17, "name": "KV Baptist Church Comex Stop", "description": ""},
+        {"stop_id": 18, "name": "Landing Court Comex Stop", "description": ""},
+        {"stop_id": 19, "name": "Shoppers Drug Mart", "description": ""},
+        {"stop_id": 20, "name": "Sobeys", "description": ""},
+        {"stop_id": 21, "name": "Guardian/Kennebecasis Drugs Front Entrance", "description": ""},
+        {"stop_id": 22, "name": "Kennebecasis Branch 58", "description": "Royal Canadian Legion"},
+        {"stop_id": 23, "name": "Rothesay Town Hall", "description": ""},
+        {"stop_id": 24, "name": "St. Paul's Anglican Church", "description": ""},
+        {"stop_id": 25, "name": "Hillside Trail Head", "description": ""},
+        {"stop_id": 26, "name": "Superstore", "description": "END"}
+      ],
+      "schedules": {
+        "weekday": {
+          "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "runs": 5,
+          "times": [
+            ["8:30", "10:00", "11:30", "13:00", "14:30"],
+            ["8:34", "10:04", "11:34", "13:04", "14:34"],
+            ["8:37", "10:07", "11:37", "13:07", "14:37"],
+            ["8:40", "10:10", "11:40", "13:10", "14:40"],
+            ["8:45", "10:15", "11:45", "13:15", "14:45"],
+            ["8:48", "10:18", "11:48", "13:18", "14:48"],
+            ["8:55", "10:25", "11:55", "13:25", "14:55"],
+            ["8:59", "10:29", "11:59", "13:29", "14:59"],
+            ["9:01", "10:31", "12:01", "13:31", "15:01"],
+            ["9:03", "10:33", "12:03", "13:33", "15:03"],
+            ["9:05", "10:35", "12:05", "13:35", "15:05"],
+            ["9:07", "10:37", "12:07", "13:37", "15:07"],
+            ["9:09", "10:39", "12:09", "13:39", "15:09"],
+            ["9:14", "10:44", "12:14", "13:44", "15:14"],
+            ["9:16", "10:46", "12:16", "13:46", "15:16"],
+            ["9:23", "10:53", "12:23", "13:53", "15:23"],
+            ["9:25", "10:55", "12:25", "13:55", "15:25"],
+            ["9:28", "10:58", "12:28", "13:58", "15:28"],
+            ["9:30", "11:00", "12:30", "14:00", "15:30"],
+            ["9:33", "11:03", "12:33", "14:03", "15:33"],
+            ["9:36", "11:06", "12:36", "14:06", "15:36"],
+            ["9:40", "11:10", "12:40", "14:10", "15:40"],
+            ["9:43", "11:13", "12:43", "14:13", "15:43"],
+            ["9:47", "11:17", "12:47", "14:17", "15:47"],
+            ["9:53", "11:23", "12:53", "14:23", "15:53"],
+            ["9:57", "11:27", "12:57", "14:27", "15:57"]
+          ]
+        },
+        "weekend": {
+          "days": ["Saturday", "Sunday"],
+          "runs": 3,
+          "times": [
+            ["8:30", "11:30", "14:30"],
+            ["8:34", "11:34", "14:34"],
+            ["8:37", "11:37", "14:37"],
+            ["8:40", "11:40", "14:40"],
+            ["8:45", "11:45", "14:45"],
+            ["8:48", "11:48", "14:48"],
+            ["8:55", "11:55", "14:55"],
+            ["8:59", "11:59", "14:59"],
+            ["9:01", "12:01", "15:01"],
+            ["9:03", "12:03", "15:03"],
+            ["9:05", "12:05", "15:05"],
+            ["9:07", "12:07", "15:07"],
+            ["9:09", "12:09", "15:09"],
+            ["9:14", "12:14", "15:14"],
+            ["9:16", "12:16", "15:16"],
+            ["9:23", "12:23", "15:23"],
+            ["9:25", "12:25", "15:25"],
+            ["9:28", "12:28", "15:28"],
+            ["9:30", "12:30", "15:30"],
+            ["9:33", "12:33", "15:33"],
+            ["9:36", "12:36", "15:36"],
+            ["9:40", "12:40", "15:40"],
+            ["9:43", "12:43", "15:43"],
+            ["9:47", "12:47", "15:47"],
+            ["9:53", "12:53", "15:53"],
+            ["9:57", "12:57", "15:57"]
+          ]
+        }
+      }
+    },
+    "Go2": {
+      "route_id": "Go2",
+      "description": "Route through Wells Recreation Centre, Kennebecasis Park, and East Riverside areas",
+      "stops": [
+        {"stop_id": 1, "name": "Superstore", "description": "START"},
+        {"stop_id": 2, "name": "Wells Recreation Centre", "description": ""},
+        {"stop_id": 3, "name": "Petro-Canada Gas Station", "description": ""},
+        {"stop_id": 4, "name": "Fox Farm Dead End Turnaround", "description": ""},
+        {"stop_id": 5, "name": "Kennebecasis Park Entrance", "description": ""},
+        {"stop_id": 6, "name": "Kennebecasis Park Beach", "description": ""},
+        {"stop_id": 7, "name": "Bill McGuire Centre", "description": ""},
+        {"stop_id": 8, "name": "East Riverside-Kinghurst Park Parking Lot", "description": ""},
+        {"stop_id": 9, "name": "St. Paul's Anglican Church", "description": ""},
+        {"stop_id": 10, "name": "Rothesay Town Hall", "description": ""},
+        {"stop_id": 11, "name": "Sobeys", "description": ""},
+        {"stop_id": 12, "name": "Landing Court Comex Stop", "description": ""},
+        {"stop_id": 13, "name": "Chamberlain Road", "description": "Mailboxes Across from 162 Chamberlain"},
+        {"stop_id": 14, "name": "Meenan's Cove Park", "description": ""},
+        {"stop_id": 15, "name": "Model Farm Road Lift Station", "description": ""},
+        {"stop_id": 16, "name": "Superstore", "description": "END"}
+      ],
+      "schedules": {
+        "weekday": {
+          "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "runs": 5,
+          "times": [
+            ["8:30", "10:00", "11:30", "13:00", "14:30"],
+            ["8:36", "10:06", "11:36", "13:06", "14:36"],
+            ["8:38", "10:08", "11:38", "13:08", "14:38"],
+            ["8:45", "10:15", "11:45", "13:15", "14:45"],
+            ["8:50", "10:20", "11:50", "13:20", "14:50"],
+            ["8:54", "10:24", "11:54", "13:24", "14:54"],
+            ["8:59", "10:29", "11:59", "13:29", "14:59"],
+            ["9:03", "10:33", "12:03", "13:33", "15:03"],
+            ["9:07", "10:37", "12:07", "13:37", "15:07"],
+            ["9:10", "10:40", "12:10", "13:40", "15:10"],
+            ["9:13", "10:43", "12:13", "13:43", "15:13"],
+            ["9:17", "10:47", "12:17", "13:47", "15:17"],
+            ["9:25", "10:55", "12:25", "13:55", "15:25"],
+            ["9:31", "11:01", "12:31", "14:01", "15:31"],
+            ["9:36", "11:06", "12:36", "14:06", "15:36"],
+            ["9:48", "11:18", "12:48", "14:18", "15:48"]
+          ]
+        },
+        "weekend": {
+          "days": ["Saturday", "Sunday"],
+          "runs": 2,
+          "times": [
+            ["10:00", "13:00"],
+            ["10:06", "13:06"],
+            ["10:08", "13:08"],
+            ["10:15", "13:15"],
+            ["10:20", "13:20"],
+            ["10:24", "13:24"],
+            ["10:29", "13:29"],
+            ["10:33", "13:33"],
+            ["10:37", "13:37"],
+            ["10:40", "13:40"],
+            ["10:43", "13:43"],
+            ["10:47", "13:47"],
+            ["10:55", "13:55"],
+            ["11:01", "14:01"],
+            ["11:06", "14:06"],
+            ["11:18", "14:18"]
+          ]
+        }
+      }
+    }
+  }
+}
