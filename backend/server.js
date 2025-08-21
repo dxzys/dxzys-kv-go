@@ -87,14 +87,17 @@ app.post('/api/generate-ics', (req, res) => {
                 const [hours, minutes] = time.split(':').map(Number);
                 eventDate.hours(hours).minutes(minutes).seconds(0);
                 
+                const utcDate = eventDate.clone().utc();
+                
                 const event = {
                     start: [
-                        eventDate.year(),
-                        eventDate.month() + 1,
-                        eventDate.date(),
-                        eventDate.hours(),
-                        eventDate.minutes()
+                        utcDate.year(),
+                        utcDate.month() + 1,
+                        utcDate.date(),
+                        utcDate.hours(),
+                        utcDate.minutes()
                     ],
+                    startInputType: 'utc',
                     duration: { minutes: 5 },
                     title: `KV Go Bus - ${routeId}`,
                     description: `Bus arrival at ${stopName}`,
