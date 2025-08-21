@@ -81,7 +81,7 @@ app.post('/api/generate-ics', (req, res) => {
             const { routeId, stopName, time, days } = item;
             
             days.forEach(day => {
-                const dayOffset = getDayOffset(day);
+                const dayOffset = getDayOffset(day, startMoment);
                 const eventDate = startMoment.clone().add(dayOffset, 'days');
                 
                 const [hours, minutes] = time.split(':').map(Number);
@@ -100,8 +100,7 @@ app.post('/api/generate-ics', (req, res) => {
                     description: `Bus arrival at ${stopName}`,
                     location: stopName,
                     status: 'CONFIRMED',
-                    busyStatus: 'FREE',
-                    timezone: 'America/Halifax'
+                    busyStatus: 'FREE'
                 };
                 
                 events.push(event);
@@ -123,17 +122,26 @@ app.post('/api/generate-ics', (req, res) => {
     }
 });
 
-function getDayOffset(dayName) {
+function getDayOffset(dayName, startMoment) {
     const dayMap = {
-        'Monday': 0,
-        'Tuesday': 1,
-        'Wednesday': 2,
-        'Thursday': 3,
-        'Friday': 4,
-        'Saturday': 5,
-        'Sunday': 6
+        'Sunday': 0,
+        'Monday': 1,
+        'Tuesday': 2,
+        'Wednesday': 3,
+        'Thursday': 4,
+        'Friday': 5,
+        'Saturday': 6
     };
-    return dayMap[dayName] || 0;
+    
+    const targetDay = dayMap[dayName];
+    const startDay = startMoment.day();
+    
+    let offset = targetDay - startDay;
+    if (offset < 0) {
+        offset += 7;
+    }
+    
+    return offset;
 }
 
 app.get('/', (req, res) => {
