@@ -26,6 +26,9 @@ class ScheduleGenerator {
         this.modalTitle = document.getElementById('modalTitle');
         this.stopsList = document.getElementById('stopsList');
         this.itemTemplate = document.getElementById('scheduleItemTemplate');
+        this.isRecurringCheckbox = document.getElementById('isRecurring');
+        this.weeksCountContainer = document.getElementById('weeksCountContainer');
+        this.weeksCountInput = document.getElementById('weeksCount');
     }
 
     bindEvents() {
@@ -37,6 +40,9 @@ class ScheduleGenerator {
         
         this.startDate.addEventListener('change', () => this.renderCalendar());
         
+        this.isRecurringCheckbox.addEventListener('change', () => this.toggleRecurringOptions());
+        this.weeksCountInput.addEventListener('change', () => this.renderCalendar());
+        
         document.querySelector('.close-modal').addEventListener('click', () => this.closeModal());
         window.addEventListener('click', (e) => {
             if (e.target === this.modal) this.closeModal();
@@ -45,6 +51,23 @@ class ScheduleGenerator {
         document.querySelectorAll('.view-stops-btn').forEach(btn => {
             btn.addEventListener('click', (e) => this.showStops(e.target.dataset.route));
         });
+    }
+
+    toggleRecurringOptions() {
+        if (this.isRecurringCheckbox.checked) {
+            this.weeksCountContainer.style.display = 'flex';
+            setTimeout(() => {
+                this.weeksCountContainer.classList.add('show');
+            }, 10);
+        } else {
+            this.weeksCountContainer.classList.remove('show');
+            setTimeout(() => {
+                if (!this.isRecurringCheckbox.checked) {
+                    this.weeksCountContainer.style.display = 'none';
+                }
+            }, 300);
+        }
+        this.renderCalendar();
     }
 
     async loadRoutes() {
@@ -95,7 +118,13 @@ class ScheduleGenerator {
         const weekStart = new Date(this.startDate.value + 'T00:00:00');
         const weekStartLocal = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate());
         const weekEndLocal = new Date(weekStartLocal);
-        weekEndLocal.setDate(weekStartLocal.getDate() + 6);
+        
+        if (this.isRecurringCheckbox.checked) {
+            const weeksCount = parseInt(this.weeksCountInput.value) || 4;
+            weekEndLocal.setDate(weekStartLocal.getDate() + (weeksCount * 7) - 1);
+        } else {
+            weekEndLocal.setDate(weekStartLocal.getDate() + 6);
+        }
         
         const calStart = new Date(firstDay);
         calStart.setDate(calStart.getDate() - firstDay.getDay());
@@ -149,7 +178,13 @@ class ScheduleGenerator {
         const weekStart = new Date(this.startDate.value + 'T00:00:00');
         const weekStartLocal = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate());
         const weekEndLocal = new Date(weekStartLocal);
-        weekEndLocal.setDate(weekStartLocal.getDate() + 6);
+        
+        if (this.isRecurringCheckbox.checked) {
+            const weeksCount = parseInt(this.weeksCountInput.value) || 4;
+            weekEndLocal.setDate(weekStartLocal.getDate() + (weeksCount * 7) - 1);
+        } else {
+            weekEndLocal.setDate(weekStartLocal.getDate() + 6);
+        }
         
         const dateLocal = new Date(date.getFullYear(), date.getMonth(), date.getDate());
         
@@ -163,7 +198,14 @@ class ScheduleGenerator {
             if (item.days.includes(dayName)) {
                 const event = document.createElement('div');
                 event.className = `calendar-event ${item.routeId.toLowerCase()}`;
-                event.title = `${item.routeId}: ${item.stopName} at ${item.time}`;
+                
+                if (this.isRecurringCheckbox.checked) {
+                    event.classList.add('recurring');
+                    const weekNumber = Math.floor((dateLocal.getTime() - weekStartLocal.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+                    event.title = `${item.routeId}: ${item.stopName} at ${item.time} (Week ${weekNumber})`;
+                } else {
+                    event.title = `${item.routeId}: ${item.stopName} at ${item.time}`;
+                }
                 
                 const stopName = document.createElement('div');
                 stopName.className = 'event-stop';
@@ -291,7 +333,9 @@ class ScheduleGenerator {
         route.stops.forEach(stop => {
             const option = document.createElement('option');
             option.value = stop.name;
-            option.textContent = `${stop.name}${stop.description ? ` - ${stop.description}` : ''}`;
+            const displayText = `${stop.name}${stop.description ? ` - ${stop.description}` : ''} (${stop.address})`;
+            option.textContent = displayText.length > 80 ? 
+                `${stop.name} - ${stop.address}` : displayText;
             stopSelect.appendChild(option);
         });
     }
@@ -422,6 +466,12 @@ class ScheduleGenerator {
     clearAll() {
         this.itemsContainer.innerHTML = '';
         this.counter = 0;
+        this.isRecurringCheckbox.checked = false;
+        this.weeksCountContainer.classList.remove('show');
+        setTimeout(() => {
+            this.weeksCountContainer.style.display = 'none';
+        }, 300);
+        this.weeksCountInput.value = 4;
         this.updateGenerateBtn();
         this.renderCalendar();
     }
@@ -439,12 +489,23 @@ class ScheduleGenerator {
         route.stops.forEach((stop, index) => {
             const stopItem = document.createElement('div');
             stopItem.className = 'stops-list-item';
+            
+            const coordinatesDisplay = stop.coordinates ? 
+                `<div class="stop-coordinates">📍 ${stop.coordinates}</div>` : '';
+            
             stopItem.innerHTML = `
                 <div class="stop-info">
                     <span class="stop-number">${index + 1}</span>
-                    <div>
+                    <div class="stop-details">
                         <div class="stop-name">${stop.name}</div>
                         ${stop.description ? `<div class="stop-description">${stop.description}</div>` : ''}
+                        <div class="stop-address">📍 ${stop.address}</div>
+                        ${coordinatesDisplay}
+                        <div class="stop-links">
+                            <a href="${stop.maps_link}" target="_blank" rel="noopener noreferrer" class="maps-link">
+                                🗺️ View on Google Maps
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <button class="btn btn-sm view-times-btn" data-route="${routeId}" data-stop-index="${index}">
@@ -505,7 +566,14 @@ class ScheduleGenerator {
                     <h4>Stop Information</h4>
                     <p><strong>Stop #:</strong> ${stopIndex + 1} of ${route.stops.length}</p>
                     <p><strong>Route:</strong> ${routeId} (${routeId === 'Go1' ? 'Inner Loop' : 'Outer Loop'})</p>
+                    <p><strong>Address:</strong> ${stop.address}</p>
+                    ${stop.coordinates ? `<p><strong>Coordinates:</strong> ${stop.coordinates}</p>` : ''}
                     <p><strong>Estimated Route Time:</strong> 90 minutes</p>
+                    <div class="stop-location-links">
+                        <a href="${stop.maps_link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                            🗺️ View Exact Location on Google Maps
+                        </a>
+                    </div>
                 </div>
             </div>
         `;
@@ -538,6 +606,9 @@ class ScheduleGenerator {
             this.generateBtn.disabled = true;
             this.generateBtn.textContent = 'Generating...';
 
+            const isRecurring = this.isRecurringCheckbox.checked;
+            const weeksCount = isRecurring ? parseInt(this.weeksCountInput.value) || 4 : 1;
+
             const response = await fetch('/api/generate-ics', {
                 method: 'POST',
                 headers: {
@@ -545,7 +616,9 @@ class ScheduleGenerator {
                 },
                 body: JSON.stringify({
                     scheduleItems: items,
-                    startDate
+                    startDate,
+                    isRecurring,
+                    weeksCount
                 })
             });
 
@@ -557,13 +630,18 @@ class ScheduleGenerator {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'kv-go-schedule.ics';
+            a.download = isRecurring ? 
+                'kv-go-recurring-schedule.ics' : 
+                'kv-go-schedule.ics';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
 
-            this.showMessage('ICS file generated successfully!', 'success');
+            const message = isRecurring ? 
+                `Recurring ICS file generated for ${weeksCount} weeks!` : 
+                'ICS file generated successfully!';
+            this.showMessage(message, 'success');
             
         } catch (error) {
             this.showMessage('Error generating ICS file', 'error');
