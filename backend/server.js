@@ -68,7 +68,7 @@ app.get('/api/schedule', (req, res) => {
 
 app.post('/api/generate-ics', (req, res) => {
     try {
-        const { scheduleItems, startDate } = req.body;
+        const { scheduleItems, startDate, isRecurring = false, weeksCount = 1 } = req.body;
         
         if (!scheduleItems || !Array.isArray(scheduleItems) || !startDate) {
             return res.status(400).json({ error: 'Invalid request data' });
@@ -89,24 +89,50 @@ app.post('/api/generate-ics', (req, res) => {
                 
                 const utcDate = eventDate.clone().utc();
                 
-                const event = {
-                    start: [
-                        utcDate.year(),
-                        utcDate.month() + 1,
-                        utcDate.date(),
-                        utcDate.hours(),
-                        utcDate.minutes()
-                    ],
-                    startInputType: 'utc',
-                    duration: { minutes: 5 },
-                    title: `KV Go Bus - ${routeId}`,
-                    description: `Bus arrival at ${stopName}`,
-                    location: stopName,
-                    status: 'CONFIRMED',
-                    busyStatus: 'FREE'
-                };
-                
-                events.push(event);
+                if (isRecurring && weeksCount > 1) {
+                    for (let week = 0; week < weeksCount; week++) {
+                        const recurringDate = eventDate.clone().add(week * 7, 'days');
+                        const recurringUtcDate = recurringDate.clone().utc();
+                        
+                        const event = {
+                            start: [
+                                recurringUtcDate.year(),
+                                recurringUtcDate.month() + 1,
+                                recurringUtcDate.date(),
+                                recurringUtcDate.hours(),
+                                recurringUtcDate.minutes()
+                            ],
+                            startInputType: 'utc',
+                            duration: { minutes: 5 },
+                            title: `KV Go Bus - ${routeId}`,
+                            description: `Bus arrival at ${stopName}`,
+                            location: stopName,
+                            status: 'CONFIRMED',
+                            busyStatus: 'FREE'
+                        };
+                        
+                        events.push(event);
+                    }
+                } else {
+                    const event = {
+                        start: [
+                            utcDate.year(),
+                            utcDate.month() + 1,
+                            utcDate.date(),
+                            utcDate.hours(),
+                            utcDate.minutes()
+                        ],
+                        startInputType: 'utc',
+                        duration: { minutes: 5 },
+                        title: `KV Go Bus - ${routeId}`,
+                        description: `Bus arrival at ${stopName}`,
+                        location: stopName,
+                        status: 'CONFIRMED',
+                        busyStatus: 'FREE'
+                    };
+                    
+                    events.push(event);
+                }
             });
         });
         
@@ -116,8 +142,9 @@ app.post('/api/generate-ics', (req, res) => {
             return res.status(500).json({ error: 'Failed to generate ICS file' });
         }
         
+        const filename = isRecurring ? `kv-go-recurring-schedule.ics` : `kv-go-schedule.ics`;
         res.setHeader('Content-Type', 'text/calendar');
-        res.setHeader('Content-Disposition', 'attachment; filename="kv-go-schedule.ics"');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
         res.send(value);
         
     } catch (error) {
@@ -151,6 +178,5 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
 });
 app.listen(PORT, () => {
-    console.log(`KV Go Schedule Generator server running on port ${PORT}`);
-    console.log(`Open http://localhost:${PORT} in your browser`);
+    console.log(`Server active! http://localhost:${PORT}`);
 });
