@@ -58,6 +58,86 @@ h1 {
     font-size: 14px;
 }
 
+.recurring-options {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+
+.recurring-options:hover {
+    border-color: #3498db;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+}
+
+.recurring-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.recurring-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #3498db;
+}
+
+.recurring-checkbox label {
+    font-weight: 500;
+    cursor: pointer;
+    color: #2c3e50;
+    user-select: none;
+}
+
+.recurring-checkbox label:hover {
+    color: #3498db;
+}
+
+.weeks-count {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-left: 28px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.weeks-count.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.weeks-count label {
+    font-weight: 500;
+    color: #555;
+}
+
+.weeks-count input[type="number"] {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 80px;
+    transition: border-color 0.2s ease;
+}
+
+.weeks-count input[type="number"]:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.weeks-hint {
+    font-size: 12px;
+    color: #6c757d;
+    font-style: italic;
+}
+
 .add-stop {
     background: #3498db;
     color: white;
@@ -433,45 +513,56 @@ h1 {
 }
 
 .calendar-event {
-    background: #495057;
+    background: #3498db;
     color: white;
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.65rem;
-    font-weight: 500;
-    overflow: hidden;
+    padding: 4px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0.05rem;
-    margin-bottom: 0.15rem;
-    flex-shrink: 0;
+    gap: 2px;
+}
+
+.calendar-event.recurring {
+    background: #e74c3c;
+    border-left: 3px solid #c0392b;
+}
+
+.calendar-event.recurring::after {
+    content: "🔄";
+    position: absolute;
+    right: 4px;
+    top: 2px;
+    font-size: 10px;
+    opacity: 0.8;
 }
 
 .event-stop {
-    font-weight: 600;
-    font-size: 0.6rem;
-    line-height: 1.1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-weight: 500;
+    line-height: 1.2;
 }
 
 .event-details {
     display: flex;
-    justify-content: space-between;
+    gap: 8px;
     align-items: center;
-    gap: 0.2rem;
-}
-
-.event-route {
-    font-weight: 600;
-    font-size: 0.65rem;
+    font-size: 10px;
     opacity: 0.9;
 }
 
+.event-route {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-weight: 600;
+}
+
 .event-time {
-    font-size: 0.6rem;
-    opacity: 0.8;
+    font-weight: 500;
 }
 
 .calendar-event.go1 {
@@ -677,6 +768,60 @@ h1 {
     align-items: flex-start;
     gap: 1rem;
     flex: 1;
+}
+
+.stop-details {
+    flex: 1;
+}
+
+.stop-address {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0.25rem 0;
+    font-style: italic;
+}
+
+.stop-coordinates {
+    color: #007bff;
+    font-size: 0.85rem;
+    margin: 0.25rem 0;
+    font-family: monospace;
+}
+
+.stop-links {
+    margin-top: 0.5rem;
+}
+
+.maps-link {
+    color: #28a745;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.maps-link:hover {
+    color: #1e7e34;
+    text-decoration: underline;
+}
+
+.stop-location-links {
+    margin-top: 1rem;
+}
+
+.stop-location-links .btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.stop-location-links .btn:hover {
+    background: #0056b3;
 }
 
 
