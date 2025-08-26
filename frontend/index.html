@@ -6,6 +6,7 @@
     <title>KV Go Schedule Generator</title>
     <link rel="stylesheet" href="/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <main class="main-content">
@@ -17,6 +18,18 @@
                 <label for="startDate">Start of week:</label>
                 <input type="date" id="startDate" required>
                 <button id="addStopBtn" class="add-stop">+ Add Stop</button>
+            </div>
+            
+            <div class="recurring-options">
+                <div class="recurring-checkbox">
+                    <input type="checkbox" id="isRecurring" name="isRecurring">
+                    <label for="isRecurring">Generate weekly recurring events</label>
+                </div>
+                <div class="weeks-count" id="weeksCountContainer" style="display: none;">
+                    <label for="weeksCount">Number of weeks:</label>
+                    <input type="number" id="weeksCount" name="weeksCount" min="2" max="52" value="4">
+                    <span class="weeks-hint">(2-52 weeks)</span>
+                </div>
             </div>
             
             <div id="scheduleItems" class="stops">
